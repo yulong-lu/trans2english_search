@@ -7,13 +7,15 @@
 // @match        https://www.google.com/*
 // @grant        GM_xmlhttpRequest
 // @grant        GM_registerMenuCommand
+// @grant        GM_setValue
+// @grant        GM_getValue
 // @run-at       document-start
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-    let targetLang = 'en'; // 默认英语
+    let targetLang = GM_getValue('targetLang', 'en'); // 从存储中读取语言设置，默认英语
     const TRANSLATE_URL = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=zh-CN&dt=t&ie=UTF-8';
     let isProcessing = false;
     let pageHidden = false;
@@ -21,14 +23,17 @@
     // 菜单切换语言
     GM_registerMenuCommand('No Translation', () => {
         targetLang = 'none';
+        GM_setValue('targetLang', targetLang);
         alert('Translation disabled');
     });
     GM_registerMenuCommand('Translate to Japanese', () => {
         targetLang = 'ja';
+        GM_setValue('targetLang', targetLang);
         alert('Translation set to Japanese');
     });
     GM_registerMenuCommand('Translate to English', () => {
         targetLang = 'en';
+        GM_setValue('targetLang', targetLang);
         alert('Translation set to English');
     });
 
